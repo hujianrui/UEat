@@ -15,7 +15,6 @@ class Restaurant extends Component {
 		return (
 			<div className="Restaurant" 
 			onClick = {this.handleClick}>
-
 				<h1 className="Restaurant-title">{this.props.name}</h1>
 				<div>
 					<img src={this.props.img} alt={this.props.name } 
