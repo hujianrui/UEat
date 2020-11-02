@@ -9,7 +9,7 @@ class RestaurantList extends Component {
 			<div className="RestaurantList">
 				<div className="RestaurantList-restaurant">
 					{data.map((r) => (
-						<Restaurant key = {r.name} name={r.name} img={r.img}/>
+						<Restaurant key = {r.name} name={r.name} img={r.logo}/>
 					))}
 				</div>
 			</div>
