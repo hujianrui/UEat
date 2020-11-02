@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
 import './Restaurant.css';
 
 class Restaurant extends Component {
@@ -7,8 +8,8 @@ class Restaurant extends Component {
 		this.handleClick = this.handleClick.bind(this);
 	}
 
-	handleClick(evt){
-		console.log(this.props.name);
+	handleClick(){
+		this.props.history.push(`/${this.props.name}`);
 	}
 
 	render() {
@@ -20,10 +21,9 @@ class Restaurant extends Component {
 					<img src={this.props.img} alt={this.props.name } 
 					className="Restaurant-image"/>		
 				</div>
-
 			</div>
 		);
 	}
 }
 
-export default Restaurant;
+export default withRouter(Restaurant);
