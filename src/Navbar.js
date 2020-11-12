@@ -11,7 +11,7 @@ class Navbar extends Component {
       </li>
     ));
     return (
-      <nav className='navbar navbar-expand-lg navbar-dark bg-dark'>
+      <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <Link className='navbar-brand' to='/'>
           UEat
         </Link>
@@ -29,14 +29,18 @@ class Navbar extends Component {
         </button>
 
         <div className='collapse navbar-collapse' id='navbarNav'>
-          <ul className='navbar-nav'>
+          <ul className='navbar-nav mr-auto' >
             {restaurantLinks}
+          </ul>
+
+          <ul className='navbar-nav' >
             <li className='nav-item'>
               <NavLink exact to='/signin' className='nav-link'>
                 Sign In
               </NavLink>
             </li>
           </ul>
+
         </div>
 
       </nav>
