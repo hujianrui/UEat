@@ -35,8 +35,8 @@ class Navbar extends Component {
 
           <ul className='navbar-nav' >
             <li className='nav-item'>
-              <NavLink exact to='/signin' className='nav-link'>
-                Sign In
+              <NavLink exact to='/login' className='nav-link'>
+                Log In
               </NavLink>
             </li>
           </ul>
