@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import './LogIn.css';
+import './SignIn.css';
 
-class LogIn extends Component {
+class SignIn extends Component {
     render() {
         return (
-            <div className="LogIn">
-                <form className="LogIn-form">
+            <div className="SignIn">
+                <form className="SignIn-form">
 
-                    <h3 className="text-center">Log in</h3>
+                    <h3 className="text-center">Sign In</h3>
 
                     <div className="form-group">
                         <label>Email</label>
@@ -27,9 +27,9 @@ class LogIn extends Component {
                         </div>
                     </div>
 
-                    <button type="submit" className="btn btn-dark btn-lg btn-block">Sign in</button>
+                    <button type="submit" className="btn btn-dark btn-lg btn-block">Sign In</button>
                     <p className="text-center">
-                        Don't have an account? <Link to='/'>Sign Up</Link>
+                        Don't have an account? <Link to='/Register'>Register</Link>
                     </p>
 
                 </form>
@@ -39,4 +39,4 @@ class LogIn extends Component {
 
 }
 
-export default LogIn;
+export default SignIn;
