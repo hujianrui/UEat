@@ -3,6 +3,9 @@ import { Link } from "react-router-dom";
 import './Register.css'
 
 class Register extends Component {
+    
+
+
     render() {
         return (
             <div className="Register">
