@@ -18,6 +18,7 @@ class SignIn extends Component {
 
     handleClick() {
         Database.signIn(this.state.email, this.state.password);
+        // console.log(Database.getUser());
     }
 
     render() {

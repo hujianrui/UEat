@@ -19,12 +19,32 @@ class Database {
 
     signIn = (email, password) => {
         firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-            console.log(error.code);
-            console.log(error.message);
+            alert(error.message)
         });
     }
 
     signOut = () => firebase.auth().signOut();
+
+    getUser = () => {
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                // User is signed in.
+                var displayName = user.displayName;
+                var email = user.email;
+                var emailVerified = user.emailVerified;
+                var photoURL = user.photoURL;
+                var isAnonymous = user.isAnonymous;
+                var uid = user.uid;
+                var providerData = user.providerData;
+                // ...
+                return user;
+            } else {
+                // User is signed out.
+                // ...
+                return null;
+            }
+        });
+    }
 
 }
 
