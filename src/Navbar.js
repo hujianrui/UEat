@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { DatabaseContext } from "./Database";
 
 class Navbar extends Component {
+  static contextType = DatabaseContext;
   render() {
-    const restaurantLinks = this.props.restaurants.map(r => (
+    const restaurantLinks = this.context.restaurants.map(r => (
       <li className='nav-item' key={r.name}>
         <NavLink exact to={`/${r.name}`} className='nav-link'>
           {r.name}

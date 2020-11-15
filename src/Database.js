@@ -1,9 +1,18 @@
+import React, { Component, createContext } from "react";
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
+import data from './Data';
 
-class Database {
-    constructor() {
+export const DatabaseContext = createContext();
+
+class DatabaseProvider extends Component {
+    constructor(props) {
+        super(props);
+        this.state = { restaurants: data, user: null };
+        // this.signIn = this.signIn.bind(this);
+        // this.signOut = this.signOut.bind(this);
+
         const firebaseConfig = {
             apiKey: "AIzaSyB6F6PHFhFdLa_WeVubFSpDHbItasCSXs0",
             authDomain: "ueat-c91c3.firebaseapp.com",
@@ -17,35 +26,23 @@ class Database {
         firebase.initializeApp(firebaseConfig);
     }
 
-    signIn = (email, password) => {
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-            alert(error.message)
-        });
+    // signIn = (email, password) => {
+    //     firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+    //         alert(error.message);
+    //     }).then(() => {
+    //         console.log(firebase.auth().currentUser);
+    //     });
+    // }
+
+    // signOut = () => firebase.auth().signOut();
+
+    render() {
+        return (
+            <DatabaseContext.Provider value={this.state}>
+                {this.props.children}
+            </DatabaseContext.Provider>
+        );
     }
-
-    signOut = () => firebase.auth().signOut();
-
-    getUser = () => {
-        firebase.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                // User is signed in.
-                var displayName = user.displayName;
-                var email = user.email;
-                var emailVerified = user.emailVerified;
-                var photoURL = user.photoURL;
-                var isAnonymous = user.isAnonymous;
-                var uid = user.uid;
-                var providerData = user.providerData;
-                // ...
-                return user;
-            } else {
-                // User is signed out.
-                // ...
-                return null;
-            }
-        });
-    }
-
 }
 
-export default new Database();
+export default DatabaseProvider;
