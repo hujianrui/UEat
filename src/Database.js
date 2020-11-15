@@ -1,4 +1,5 @@
 import React, { Component, createContext } from "react";
+import { withRouter } from 'react-router-dom';
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/firestore";
@@ -10,8 +11,8 @@ class DatabaseProvider extends Component {
     constructor(props) {
         super(props);
         this.state = { restaurants: data, user: null };
-        // this.signIn = this.signIn.bind(this);
-        // this.signOut = this.signOut.bind(this);
+        this.signIn = this.signIn.bind(this);
+        this.signOut = this.signOut.bind(this);
 
         const firebaseConfig = {
             apiKey: "AIzaSyB6F6PHFhFdLa_WeVubFSpDHbItasCSXs0",
@@ -26,23 +27,35 @@ class DatabaseProvider extends Component {
         firebase.initializeApp(firebaseConfig);
     }
 
-    // signIn = (email, password) => {
-    //     firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
-    //         alert(error.message);
-    //     }).then(() => {
-    //         console.log(firebase.auth().currentUser);
-    //     });
-    // }
+    signIn = (email, password) => {
+        firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
+            alert(error.message);
+        });
 
-    // signOut = () => firebase.auth().signOut();
+        firebase.auth().onAuthStateChanged((user) => {
+            if (user) {
+                this.setState({ user: user });
+                this.props.history.push("/");
+            }
+        });
+    }
+
+    signOut = () => {
+        firebase.auth().signOut();
+        this.setState({ user: null });
+    }
 
     render() {
         return (
-            <DatabaseContext.Provider value={this.state}>
+            <DatabaseContext.Provider value={{
+                    ...this.state,
+                    signIn: this.signIn,
+                    signOut: this.signOut
+                }}>
                 {this.props.children}
             </DatabaseContext.Provider>
         );
     }
 }
 
-export default DatabaseProvider;
+export default withRouter(DatabaseProvider);

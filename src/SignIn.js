@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { withRouter } from 'react-router-dom';
+import { DatabaseContext } from './Database';
 import './SignIn.css';
 
 class SignIn extends Component {
+    static contextType = DatabaseContext;
     constructor(props) {
         super(props);
         this.state = { email: "", password: "" };
@@ -16,9 +18,7 @@ class SignIn extends Component {
     }
 
     handleClick() {
-        // Database.signIn(this.state.email, this.state.password);
-        // Database.getUser();
-        // console.log(this.props.user);
+        this.context.signIn(this.state.email, this.state.password);
     }
 
     render() {
