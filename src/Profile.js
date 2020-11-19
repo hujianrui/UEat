@@ -1,7 +1,43 @@
 import React, { Component } from "react";
+import { DatabaseContext } from './Database';
 import './Profile.css'
 
 class Profile extends Component {
+    static contextType = DatabaseContext;
+    constructor(props) {
+        super(props);
+        this.state = {
+            firstName: "",
+            lastName: "",
+            restaurantName: "",
+            resraurantLogo: "",
+            resraurantLocation: "",
+            resraurantMenu: []
+        };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSave = this.handleSave.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
+    }
+
+    handleChange(evt) {
+        this.setState({ [evt.target.name]: evt.target.value });
+    }
+
+    handleSave() {
+        console.log(this.state);
+    }
+
+    handleCancel() {
+        this.setState({
+            firstName: "",
+            lastName: "",
+            restaurantName: "",
+            resraurantLogo: "",
+            resraurantLocation: "",
+            resraurantMenu: []
+        });
+    }
+
     render() {
         return (
             <div className="Profile">
@@ -16,7 +52,9 @@ class Profile extends Component {
                                 type="text"
                                 name="firstName"
                                 className="form-control"
-                                placeholder="Enter first name" />
+                                placeholder="Enter first name"
+                                value={this.state.firstName}
+                                onChange={this.handleChange} />
                         </div>
 
                         <div className="form-group col-md-6">
@@ -25,7 +63,9 @@ class Profile extends Component {
                                 type="text"
                                 name="lastName"
                                 className="form-control"
-                                placeholder="Enter last name" />
+                                placeholder="Enter last name"
+                                value={this.state.lastName}
+                                onChange={this.handleChange} />
                         </div>
                     </div>
 
@@ -35,7 +75,9 @@ class Profile extends Component {
                             type="text"
                             name="restaurantName"
                             className="form-control"
-                            placeholder="Enter restaurant name" />
+                            placeholder="Enter restaurant name"
+                            value={this.state.restaurantName}
+                            onChange={this.handleChange} />
                     </div>
 
                     <div className="form-group">
@@ -44,7 +86,9 @@ class Profile extends Component {
                             type="url"
                             name="resraurantLogo"
                             className="form-control"
-                            placeholder="Enter resraurant logo" />
+                            placeholder="Enter resraurant logo"
+                            value={this.state.resraurantLogo}
+                            onChange={this.handleChange} />
                     </div>
 
                     <div className="form-group">
@@ -53,7 +97,9 @@ class Profile extends Component {
                             type="text"
                             name="resraurantLocation"
                             className="form-control"
-                            placeholder="Enter resraurant location" />
+                            placeholder="Enter resraurant location"
+                            value={this.state.resraurantLocation}
+                            onChange={this.handleChange} />
                     </div>
 
                     <div className="form-group">
@@ -83,13 +129,13 @@ class Profile extends Component {
                         <div className=" col-md-6">
                             <button type="button"
                                 className="btn btn-dark btn-lg btn-block"
-                            >Save</button>
+                                onClick={this.handleSave}>Save</button>
                         </div>
 
                         <div className=" col-md-6">
                             <button type="button"
                                 className="btn btn-secondary btn-lg btn-block"
-                            >Cancel</button>
+                                onClick={this.handleCancel}>Cancel</button>
                         </div>
                     </div>
 
