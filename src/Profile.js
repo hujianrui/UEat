@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import MenuInput from './MenuInput';
+import MenuAdd from './MenuAdd';
 import { DatabaseContext } from './Database';
 import './Profile.css'
 
@@ -17,6 +19,8 @@ class Profile extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
+        this.addDish = this.addDish.bind(this);
+        this.removeDish = this.removeDish.bind(this);
     }
 
     handleChange(evt) {
@@ -38,7 +42,24 @@ class Profile extends Component {
         });
     }
 
+    addDish(dish) {
+        this.setState({
+            resraurantMenu: [...this.state.resraurantMenu, dish]
+        });
+    }
+
+    removeDish(id) {
+        this.setState({
+            resraurantMenu: this.state.resraurantMenu.filter(dish => dish.id !== id)
+        });
+    }
+
     render() {
+        const menu = this.state.resraurantMenu.map(m => {
+            return <MenuInput key={m.id} id={m.id}
+                dishName={m.dishName} dishImage={m.dishImage}
+                removeDish={this.removeDish} />
+        });
         return (
             <div className="Profile">
                 <form className="Profile-form">
@@ -105,24 +126,12 @@ class Profile extends Component {
                     <div className="form-group">
                         <div className="form-row">
                             <label className="col-md-6">Resraurant Menu</label>
-                            <label className="col-md-6 text-right">Add</label>
+                            <button type="button"
+                                className="btn btn-link btn-sm ml-auto"
+                            >Add</button>
                         </div>
-                        <div className="form-row">
-                            <div className=" col-md-6">
-                                <input
-                                    type="text"
-                                    name="dishName"
-                                    className="form-control"
-                                    placeholder="Enter dish name" />
-                            </div>
-                            <div className=" col-md-6">
-                                <input
-                                    type="url"
-                                    name="dishImage"
-                                    className="form-control"
-                                    placeholder="Enter dish image" />
-                            </div>
-                        </div>
+                        <ul>{menu}</ul>
+                        <MenuAdd addDish={this.addDish} />
                     </div>
 
                     <div className="form-row">
