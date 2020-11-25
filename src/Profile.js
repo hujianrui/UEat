@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import { v4 as uuid } from 'uuid';
 import MenuInput from './MenuInput';
-import MenuAdd from './MenuAdd';
 import { DatabaseContext } from './Database';
 import './Profile.css'
 
@@ -21,6 +21,7 @@ class Profile extends Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.addDish = this.addDish.bind(this);
         this.removeDish = this.removeDish.bind(this);
+        this.updateDish = this.updateDish.bind(this);
     }
 
     handleChange(evt) {
@@ -42,9 +43,13 @@ class Profile extends Component {
         });
     }
 
-    addDish(dish) {
+    addDish() {
         this.setState({
-            resraurantMenu: [...this.state.resraurantMenu, dish]
+            resraurantMenu: [...this.state.resraurantMenu, {
+                id: uuid(),
+                dishName: "",
+                dishImage: ""
+            }]
         });
     }
 
@@ -54,11 +59,26 @@ class Profile extends Component {
         });
     }
 
+    updateDish(id, updatedDishName, updatedDishImage) {
+        const updatedMenu = this.state.resraurantMenu.map(dish => {
+            if (dish.id === id) {
+                return {
+                    ...dish,
+                    dishName: updatedDishName,
+                    dishImage: updatedDishImage
+                };
+            }
+            return dish;
+        });
+        this.setState({ resraurantMenu: updatedMenu });
+    }
+
     render() {
         const menu = this.state.resraurantMenu.map(m => {
             return <MenuInput key={m.id} id={m.id}
                 dishName={m.dishName} dishImage={m.dishImage}
-                removeDish={this.removeDish} />
+                removeDish={this.removeDish}
+                updateDish={this.updateDish} />
         });
         return (
             <div className="Profile">
@@ -128,10 +148,10 @@ class Profile extends Component {
                             <label className="col-md-6">Resraurant Menu</label>
                             <button type="button"
                                 className="btn btn-link btn-sm ml-auto"
+                                onClick={this.addDish}
                             >Add</button>
                         </div>
-                        <ul>{menu}</ul>
-                        <MenuAdd addDish={this.addDish} />
+                        {menu}
                     </div>
 
                     <div className="form-row">
