@@ -2,7 +2,7 @@ import React, { Component, createContext } from "react";
 import { withRouter } from 'react-router-dom';
 import firebase from "firebase/app";
 import "firebase/auth";
-import "firebase/firestore";
+import "firebase/database";
 import data from './Data';
 
 export const DatabaseContext = createContext();
@@ -13,6 +13,8 @@ class DatabaseProvider extends Component {
         this.state = { restaurants: data, user: null };
         this.signIn = this.signIn.bind(this);
         this.signOut = this.signOut.bind(this);
+        this.signUp = this.signUp.bind(this);
+        this.writeUserData = this.writeUserData.bind(this);
 
         const firebaseConfig = {
             apiKey: "AIzaSyB6F6PHFhFdLa_WeVubFSpDHbItasCSXs0",
@@ -38,6 +40,7 @@ class DatabaseProvider extends Component {
                 this.props.history.push("/");
             }
         });
+
     }
 
     signOut = () => {
@@ -53,9 +56,14 @@ class DatabaseProvider extends Component {
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
                 this.setState({ user: user });
-                this.props.history.push("/");
+                this.props.history.push("/Profile");
             }
         });
+    }
+
+    writeUserData = (userId, state) => {
+        firebase.database().ref(userId).set(state);
+        this.props.history.push("/");
     }
 
     render() {
@@ -64,7 +72,8 @@ class DatabaseProvider extends Component {
                 ...this.state,
                 signIn: this.signIn,
                 signOut: this.signOut,
-                signUp: this.signUp
+                signUp: this.signUp,
+                writeUserData: this.writeUserData
             }}>
                 {this.props.children}
             </DatabaseContext.Provider>

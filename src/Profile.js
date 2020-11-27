@@ -29,7 +29,7 @@ class Profile extends Component {
     }
 
     handleSave() {
-        console.log(this.state);
+        this.context.writeUserData(this.context.user.uid, this.state);
     }
 
     handleCancel() {
