@@ -47,14 +47,14 @@ class Navbar extends Component {
 
           <ul className='navbar-nav' >
             <li className='nav-item'>
-              {this.context.user !== null ?
+              {this.context.user !== "" ?
                 <NavLink exact to='/Profile' className='nav-link'>
                   Profile</NavLink> :
                 null}
             </li>
 
             <li className='nav-item'>
-              {this.context.user !== null ?
+              {this.context.user !== "" ?
                 <NavLink exact to='/SignOut' className='nav-link' onClick={this.handleClick}>
                   Sign Out</NavLink> :
                 <NavLink exact to='/SignIn' className='nav-link'>
