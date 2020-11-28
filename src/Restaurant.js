@@ -13,6 +13,7 @@ class Restaurant extends Component {
 	}
 
 	render() {
+		console.log(this.prop);
 		return (
 			<div className="Restaurant"
 				onClick={this.handleClick}>

@@ -3,14 +3,13 @@ import { withRouter } from 'react-router-dom';
 import firebase from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
-import data from './Data';
 
 export const DatabaseContext = createContext();
 
 class DatabaseProvider extends Component {
     constructor(props) {
         super(props);
-        this.state = { restaurants: data, user: null };
+        this.state = { restaurants: [], user: "" };
         this.signIn = this.signIn.bind(this);
         this.signOut = this.signOut.bind(this);
         this.signUp = this.signUp.bind(this);
@@ -29,6 +28,15 @@ class DatabaseProvider extends Component {
         firebase.initializeApp(firebaseConfig);
     }
 
+    async componentDidMount() {
+        let cloudData = await firebase.database().ref().once('value').then();
+        let data = [];
+        for (var key in cloudData.val()) {
+            data.push(cloudData.val()[key]);
+        }
+        this.setState({ restaurants: data });
+    }
+
     signIn = (email, password) => {
         firebase.auth().signInWithEmailAndPassword(email, password).catch((error) => {
             alert(error.message);
@@ -45,7 +53,7 @@ class DatabaseProvider extends Component {
 
     signOut = () => {
         firebase.auth().signOut();
-        this.setState({ user: null });
+        this.setState({ user: "" });
     }
 
     signUp = (email, password) => {
