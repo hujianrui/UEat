@@ -24,6 +24,12 @@ class Profile extends Component {
         this.updateDish = this.updateDish.bind(this);
     }
 
+    componentDidMount(){
+        if(this.context.profile !== ""){
+            this.setState(this.context.profile);
+        }
+    }
+
     handleChange(evt) {
         this.setState({ [evt.target.name]: evt.target.value });
     }
