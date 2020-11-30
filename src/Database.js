@@ -17,7 +17,8 @@ class DatabaseProvider extends Component {
         this.signIn = this.signIn.bind(this);
         this.signOut = this.signOut.bind(this);
         this.signUp = this.signUp.bind(this);
-        this.writeUserData = this.writeUserData.bind(this);
+        this.updateUserData = this.updateUserData.bind(this);
+        this.cancelUpdate = this.cancelUpdate.bind(this);
 
         const firebaseConfig = {
             apiKey: "AIzaSyB6F6PHFhFdLa_WeVubFSpDHbItasCSXs0",
@@ -92,10 +93,14 @@ class DatabaseProvider extends Component {
         });
     }
 
-    writeUserData = (userId, state) => {
+    updateUserData = (userId, state) => {
         firebase.database().ref(userId).set(state);
         this.setState({ profile: state });
         this.props.history.push("/");
+    }
+
+    cancelUpdate(){
+        this.props.history.goBack();
     }
 
     render() {
@@ -105,7 +110,8 @@ class DatabaseProvider extends Component {
                 signIn: this.signIn,
                 signOut: this.signOut,
                 signUp: this.signUp,
-                writeUserData: this.writeUserData,
+                updateUserData: this.updateUserData,
+                cancelUpdate: this.cancelUpdate
             }}>
                 {this.props.children}
             </DatabaseContext.Provider>
