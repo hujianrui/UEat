@@ -10,7 +10,8 @@ class DatabaseProvider extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            restaurants: [], 
+            cloud: [],
+            restaurants: [],
             user: "",
             profile: ""
         };
@@ -33,32 +34,35 @@ class DatabaseProvider extends Component {
         firebase.initializeApp(firebaseConfig);
     }
 
-    async componentDidMount() {
-        let cloudData = await firebase.database().ref().once('value').then();
-        let data = [];
-        for (var key in cloudData.val()) {
-            data.push(cloudData.val()[key]);
-        }
-        this.setState({ restaurants: data });
+    componentDidMount() {
+        let cloudData = firebase.database().ref();
+        cloudData.on('child_added', (data) => {
+            this.setState({
+                cloud: { ...this.state.cloud, [data.key]: data.val() }
+            });
+        });
+
+        cloudData.on('child_changed', (data) => {
+            this.setState({
+                cloud: { ...this.state.cloud, [data.key]: data.val() }
+            });
+        });
+
+        cloudData.on('child_removed', (data) => {
+            this.setState({
+                cloud: this.state.cloud.filter(d => d.key !== data.key)
+            });
+        });
     }
 
-    async componentDidUpdate(prevProps, prevState, snapshot) {
-        if (this.state.user !== prevState.user) {
-            if (this.state.user === "") {
-                this.setState({ profile: "" });
-            } else {
-                let cloudData = await firebase.database().ref().once('value').then();
-                this.setState({ profile: cloudData.val()[this.state.user.uid] });
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.state.cloud !== prevState.cloud) {
+            let data = [];
+            for (var key in this.state.cloud) {
+                data.push(this.state.cloud[key]);
             }
-        }
-        if (this.state.profile !== "" &&
-            this.state.profile !== prevState.profile) {
-                let cloudData = await firebase.database().ref().once('value').then();
-                let data = [];
-                for (var key in cloudData.val()) {
-                    data.push(cloudData.val()[key]);
-                }
-                this.setState({ restaurants: data });
+            this.setState({ restaurants: data });
+            console.log("update");
         }
     }
 
@@ -69,7 +73,7 @@ class DatabaseProvider extends Component {
 
         firebase.auth().onAuthStateChanged((user) => {
             if (user) {
-                this.setState({ user: user });
+                this.setState({ user: user, profile: this.state.cloud[user.uid]});
                 this.props.history.push("/");
             }
         });
@@ -77,7 +81,7 @@ class DatabaseProvider extends Component {
 
     signOut = () => {
         firebase.auth().signOut();
-        this.setState({ user: "" });
+        this.setState({ user: "", profile: "" });
     }
 
     signUp = (email, password) => {
@@ -99,7 +103,7 @@ class DatabaseProvider extends Component {
         this.props.history.push("/");
     }
 
-    cancelUpdate(){
+    cancelUpdate() {
         this.props.history.goBack();
     }
 
