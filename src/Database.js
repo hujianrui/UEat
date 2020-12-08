@@ -62,7 +62,6 @@ class DatabaseProvider extends Component {
                 data.push(this.state.cloud[key]);
             }
             this.setState({ restaurants: data });
-            console.log("update");
         }
     }
 
@@ -103,7 +102,7 @@ class DatabaseProvider extends Component {
         this.props.history.push("/");
     }
 
-    cancelUpdate() {
+    cancelUpdate = () => {
         this.props.history.goBack();
     }
 

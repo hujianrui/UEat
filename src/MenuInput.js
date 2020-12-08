@@ -7,6 +7,7 @@ class MenuInput extends Component {
             id: this.props.id,
             dishName: this.props.dishName,
             dishImage: this.props.dishImage,
+            dishDescrip: this.props.dishDescrip
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
@@ -18,7 +19,12 @@ class MenuInput extends Component {
     }
 
     handleSave() {
-        this.props.updateDish(this.state.id, this.state.dishName, this.state.dishImage);
+        this.props.updateDish(
+            this.state.id,
+            this.state.dishName,
+            this.state.dishImage,
+            this.state.dishDescrip
+        );
     }
 
     handleRemove() {
@@ -27,29 +33,38 @@ class MenuInput extends Component {
 
     render() {
         return (
-            <div className="form-row" onBlur={this.handleSave}>
-                <div className=" col-md-3">
-                    <input
-                        type="text"
-                        name="dishName"
-                        className="form-control"
-                        placeholder="Enter dish name"
-                        value={this.state.dishName}
-                        onChange={this.handleChange} />
+            <div onBlur={this.handleSave} className="mb-2">
+                <div className="form-row">
+                    <div className=" col-md-3">
+                        <input
+                            type="text"
+                            name="dishName"
+                            className="form-control"
+                            placeholder="Enter dish name"
+                            value={this.state.dishName}
+                            onChange={this.handleChange} />
+                    </div>
+                    <div className="col-md-8">
+                        <input
+                            type="text"
+                            name="dishImage"
+                            className="form-control"
+                            placeholder="Enter dish image URL"
+                            value={this.state.dishImage}
+                            onChange={this.handleChange} />
+                    </div>
+                    <button type="button"
+                        className="btn btn-danger btn-sm col-md-1"
+                        onClick={this.handleRemove}
+                    >X</button>
                 </div>
-                <div className="col-md-8">
-                    <input
-                        type="text"
-                        name="dishImage"
-                        className="form-control"
-                        placeholder="Enter dish image"
-                        value={this.state.dishImage}
-                        onChange={this.handleChange} />
-                </div>
-                <button type="button"
-                    className="btn btn-danger btn-sm col-md-1"
-                    onClick={this.handleRemove}
-                >X</button>
+                <input
+                    type="text"
+                    name="dishDescrip"
+                    className="form-control"
+                    placeholder="Enter dish descrip"
+                    value={this.state.dishDescrip}
+                    onChange={this.handleChange} />
             </div>
         );
     }

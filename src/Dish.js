@@ -6,6 +6,7 @@ class Dish extends Component {
 		return (
 			<div className="Dish">
 				<h1 className="Dish-title">{this.props.name}</h1>
+				<p>{this.props.descrip}</p>
 				<div>
 					<img src={this.props.img} alt={this.props.name}
 						className="Dish-image" />
