@@ -7,9 +7,11 @@ class MenuInput extends Component {
             id: this.props.id,
             dishName: this.props.dishName,
             dishImage: this.props.dishImage,
-            dishDescrip: this.props.dishDescrip
+            dishDescrip: this.props.dishDescrip,
+            stock: this.props.stock
         };
         this.handleChange = this.handleChange.bind(this);
+        this.handleToggle = this.handleToggle.bind(this);
         this.handleRemove = this.handleRemove.bind(this);
         this.handleSave = this.handleSave.bind(this);
     }
@@ -18,12 +20,21 @@ class MenuInput extends Component {
         this.setState({ [evt.target.name]: evt.target.value });
     }
 
+    handleToggle() {
+        if (this.state.stock === "true") {
+            this.setState({ stock: "false" });
+        } else {
+            this.setState({ stock: "true" });
+        }
+    }
+
     handleSave() {
         this.props.updateDish(
             this.state.id,
             this.state.dishName,
             this.state.dishImage,
-            this.state.dishDescrip
+            this.state.dishDescrip,
+            this.state.stock
         );
     }
 
@@ -58,13 +69,32 @@ class MenuInput extends Component {
                         onClick={this.handleRemove}
                     >X</button>
                 </div>
-                <input
-                    type="text"
-                    name="dishDescrip"
-                    className="form-control"
-                    placeholder="Enter dish descrip"
-                    value={this.state.dishDescrip}
-                    onChange={this.handleChange} />
+                <div className="form-row">
+                    <div className="col-md-10">
+                        <input
+                            type="text"
+                            name="dishDescrip"
+                            className="form-control"
+                            placeholder="Enter dish descrip"
+                            value={this.state.dishDescrip}
+                            onChange={this.handleChange} />
+                    </div>
+                    <div className="form-check form-check-inline ml-2">
+                        <input
+                            type="checkbox"
+                            name="stock"
+                            id="stock"
+                            className="form-check-input"
+                            value={this.state.stock}
+                            checked={this.state.stock==="false"}
+                            onChange={this.handleToggle} />
+                        <label
+                            className="form-check-label"
+                            htmlFor="stock"
+                        >OOS</label>
+                    </div>
+                </div>
+
             </div>
         );
     }

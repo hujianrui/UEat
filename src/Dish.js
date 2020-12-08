@@ -9,7 +9,8 @@ class Dish extends Component {
 				<p>{this.props.descrip}</p>
 				<div>
 					<img src={this.props.img} alt={this.props.name}
-						className="Dish-image" />
+						className={this.props.stock === "true" ?
+							"Dish-image" : "Dish-image-gray"} />
 				</div>
 			</div>
 		);

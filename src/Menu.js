@@ -13,7 +13,8 @@ class Menu extends Component {
 						<Dish key={m.id} 
 						name={m.dishName} 
 						img={m.dishImage} 
-						descrip={m.dishDescrip}/>
+						descrip={m.dishDescrip}
+						stock={m.stock}/>
 					))}
 				</div>
 			</div>

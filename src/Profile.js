@@ -102,7 +102,8 @@ class Profile extends Component {
                 id: uuid(),
                 dishName: "",
                 dishImage: "",
-                dishDescrip: ""
+                dishDescrip: "",
+                stock: "true"
             }]
         });
     }
@@ -113,14 +114,15 @@ class Profile extends Component {
         });
     }
 
-    updateDish(id, updatedDishName, updatedDishImage, updatedDescrip) {
+    updateDish(id, updatedDishName, updatedDishImage, updatedDescrip, updatedStock) {
         const updatedMenu = this.state.restaurantMenu.map(dish => {
             if (dish.id === id) {
                 return {
                     ...dish,
                     dishName: updatedDishName,
                     dishImage: updatedDishImage,
-                    dishDescrip: updatedDescrip
+                    dishDescrip: updatedDescrip,
+                    stock: updatedStock
                 };
             }
             return dish;
@@ -133,6 +135,7 @@ class Profile extends Component {
             return <MenuInput key={m.id} id={m.id}
                 dishName={m.dishName} dishImage={m.dishImage}
                 dishDescrip={m.dishDescrip}
+                stock={m.stock}
                 removeDish={this.removeDish}
                 updateDish={this.updateDish} />
         });
